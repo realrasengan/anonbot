@@ -19,7 +19,7 @@ IRC.addListener('raw',async (message) => {
     parse(message.nick,message.args[1]);
   else if(message.command==='JOIN')
     IRC.whois(message.nick);
-  else if(message.command==='PART')
+  else if(message.command==='PART' || message.command==='KICK' || message.command==='QUIT')
     delete nicklist[message.nick.toLowerCase()];
   else if(message.command==='330') {
     if(message.args[1].toLowerCase()!==message.args[2].toLowerCase()) {
