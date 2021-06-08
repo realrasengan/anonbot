@@ -29,10 +29,6 @@ IRC.addListener('raw',async (message) => {
         IRC.mode(constants.IRC_CHAN,'-b',message.args[1]+"!*@*");
       },10000);
     }
-    else {
-      nicklist[message.args[1].toLowerCase()]=getNick();
-      IRC.notice_chan(message.args[1],"Your nick is now "+nicklist[message.args[1].toLowerCase()],constants.IRC_CHAN);
-    }
   }
 });
 
