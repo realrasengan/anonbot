@@ -2,7 +2,7 @@ const { uniqueNamesGenerator, adjectives, colors, animals } = require('unique-na
 const fs = require('fs');
 const Help = require('./lib/help.js');  // help text
 const constants = require('./lib/constants.js');  // constants and settings
-const IRC = new (require('./lib/irc.js')).IRC();  // irc client, connected
+const IRC = require('./lib/irc.js');  // irc client, connected
 
 // Hack
 // TODO: Better way to ensure one instance of bot only (pid file method breaks if process exits unexpectedly)
