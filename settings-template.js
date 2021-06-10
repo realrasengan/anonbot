@@ -7,6 +7,7 @@ const IRC_NICK = "AnonChan";
 const IRC_USER = "anonchan";
 const IRC_GECOS = "Anonymous Channel";
 const IRC_CHAN = "#anonchan";
+
 const MODERATOR_HOSTMASKS = [
     'freenode/helper/',
     'freenode/staff/',

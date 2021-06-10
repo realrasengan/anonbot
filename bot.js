@@ -3,7 +3,7 @@ const fs = require('fs');
 const parseDuration = require('parse-duration')
 
 const Help = require('./lib/help.js');  // help text
-const constants = require('./lib/constants.js');  // constants and settings
+const constants = require('./settings.js');  // constants and settings
 const IRC = require('./lib/irc.js');  // irc client, connected
 const Mutes = require('./lib/mutes.js');
 
