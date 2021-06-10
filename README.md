@@ -3,8 +3,17 @@
 
 See #anonchan on chat.freenode.net
 
+With Yarn:
+
 ```
-npm install irc unique-names-generator express
+yarn install
+node bot.js
+```
+
+With NPM:
+
+```
+npm install
 node bot.js
 ```
 
