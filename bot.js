@@ -3,8 +3,9 @@ const fs = require('fs');
 const parseDuration = require('parse-duration')
 
 const Help = require('./lib/help.js');  // help text
-const constants = require('./lib/constants.js');  // constants and settings
+const constants = require('./settings.js');  // constants and settings
 const IRC = require('./lib/irc.js');  // irc client, connected
+const { IncrementBuildup, ClearUserBuildup } = require('./lib/limits.js');
 const Mutes = require('./lib/mutes.js');
 
 // Hack
@@ -14,6 +15,8 @@ app.listen(22534);
 
 // Nickslist - Stored in RAM, no logs, no leaks.
 let nicklist = [];
+
+const flood_mute_time = parseDuration(constants.FLOOD_MUTE_TIME) || constants.FLOOD_MUTE_TIME
 
 // Main listener
 IRC.addListener('raw',async (message) => {
@@ -81,8 +84,18 @@ async function parse(from,msg) {
       IRC.client.whois(from)
       break;
     default:
-      if (Mutes.IsUserMuted(from)) {
+      const isMuted = Mutes.IsUserMuted(from)
+
+      if (isMuted) {
         IRC.notice_chan(from, "You are muted.", constants.IRC_CHAN);
+        break;
+      }
+
+      const buildup = IncrementBuildup(from)
+
+      if (buildup > constants.MAX_MESSAGE_BUILDUP) {
+        ClearUserBuildup(from)
+        Mutes.MuteUser(from, flood_mute_time);
         break;
       }
 

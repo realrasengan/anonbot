@@ -18,7 +18,11 @@ node bot.js
 ```
 
 ## Settings
-Edit the constants.js
+
+```
+cp settings-template.js settings.js
+nano settings.js
+```
 
 ## Copyright and License
 Copyright (c) 2021 freenode limited

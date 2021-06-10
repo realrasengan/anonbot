@@ -1,3 +1,4 @@
 node_modules/
 .password
 package-lock.json
+settings.js
