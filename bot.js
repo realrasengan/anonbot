@@ -2,7 +2,8 @@ const { uniqueNamesGenerator, adjectives, colors, animals } = require('unique-na
 const fs = require('fs');
 const Help = require('./lib/help.js');  // help text
 const constants = require('./lib/constants.js');  // constants and settings
-const IRC = new (require('./lib/irc.js')).IRC();  // irc client, connected
+const IRC = require('./lib/irc.js');  // irc client, connected
+const Mutes = require('./lib/mutes.js');
 
 // Hack
 // TODO: Better way to ensure one instance of bot only (pid file method breaks if process exits unexpectedly)
@@ -32,6 +33,12 @@ IRC.addListener('raw',async (message) => {
   }
 });
 
+// Whois Listener
+IRC.addListener('whois', async (info) => {
+    const { nick, host } = info;
+    Mutes.HandleMuteWhois(nicklist, nick, host)
+})
+
 // Main bot processor
 async function parse(from,msg) {
   msg=msg.split(" ");
@@ -45,6 +52,9 @@ async function parse(from,msg) {
           case '!new':
             IRC.notice_chan(from,Help.help_new,constants.IRC_CHAN);
             break;
+          case '!mute':
+            IRC.notice_chan(from, Help.help_mute, constants.IRC_CHAN);
+            break;
           default:
             IRC.notice_chan(from,Help.none+msg[1],constants.IRC_CHAN);
             break;
@@ -56,11 +66,21 @@ async function parse(from,msg) {
       nicklist[from]=getNick();
       IRC.notice_chan(from,"Your nick is now "+nicklist[from],constants.IRC_CHAN);
       break;
+    case '!mute':
+      Mutes.RegisterMuteRequest(from, msg[1])
+      IRC.client.whois(from)
+      break;
     default:
+      if (Mutes.IsUserMuted(from)) {
+        IRC.notice_chan(from, "You are muted.", constants.IRC_CHAN);
+        break;
+      }
+
       if(typeof nicklist[from] === 'undefined') {
         nicklist[from]=getNick();
         IRC.notice_chan(from,"Your nick is now "+nicklist[from],constants.IRC_CHAN);
       }
+
       IRC.say(constants.IRC_CHAN,"<"+nicklist[from]+"> "+msg.join(" "));
       break;
   }
