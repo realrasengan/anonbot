@@ -14,7 +14,7 @@ let nicklist = [];
 
 // Main listener
 IRC.addListener('raw',async (message) => {
-  if(message.command==='PRIVMSG' &&
+  if(message.command==='NOTICE' &&
     (message.args[0].toLowerCase()==='@'+constants.IRC_CHAN.toLowerCase()))
     parse(message.nick,message.args[1]);
   else if(message.command==='JOIN')
