@@ -22,6 +22,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "irc": "^0.5.2",
+    "parse-duration": "^1.0.0",
     "unique-names-generator": "^4.5.0"
   }
 }
