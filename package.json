@@ -1,0 +1,27 @@
+{
+  "name": "anonbot",
+  "version": "0.0.1",
+  "description": "Anonchan is the bot that powers #anonchan on freenode, the place to chat anonymously.",
+  "main": "bot.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/realrasengan/anonbot.git"
+  },
+  "author": "Dustin Lacewell",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/realrasengan/anonbot/issues"
+  },
+  "homepage": "https://github.com/realrasengan/anonbot#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "irc": "^0.5.2",
+    "unique-names-generator": "^4.5.0"
+  }
+}
