@@ -1,5 +1,7 @@
 const { uniqueNamesGenerator, adjectives, colors, animals } = require('unique-names-generator');
 const fs = require('fs');
+const parseDuration = require('parse-duration')
+
 const Help = require('./lib/help.js');  // help text
 const constants = require('./lib/constants.js');  // constants and settings
 const IRC = require('./lib/irc.js');  // irc client, connected
@@ -67,7 +69,15 @@ async function parse(from,msg) {
       IRC.notice_chan(from,"Your nick is now "+nicklist[from],constants.IRC_CHAN);
       break;
     case '!mute':
-      Mutes.RegisterMuteRequest(from, msg[1])
+      let duration = 3600000 // 1 hour
+      if (msg.length === 3) {
+        duration = parseDuration(msg[2])
+        if (duration === null) {
+          IRC.notice_chan(from, `Couldn't parse mute duration: ${msg[2]}`, constants.IRC_CHAN);
+          break;
+        }
+      }
+      Mutes.RegisterMuteRequest(from, msg[1], duration)
       IRC.client.whois(from)
       break;
     default:
